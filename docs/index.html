@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spotify Polyglot Companion — read any song in your own alphabet</title>
+  <meta name="description" content="A Chrome extension that shows Spotify lyrics in their original script, transliterated and translated, in sync with the music.">
+  <meta name="theme-color" content="#110f0d">
+  <meta property="og:title" content="Spotify Polyglot Companion">
+  <meta property="og:description" content="Read any song in your own alphabet: original lyrics, transliteration and translation, synced to Spotify.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">Ά</span> Polyglot</a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#demo">Demo</a>
+        <a href="#how">How it works</a>
+        <a href="#install">Install</a>
+        <a class="nav-gh" href="https://github.com/CharlesMontluc/spotify-polyglot-companion" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO + LIVE DEMO -->
+    <section class="hero wrap" id="demo">
+      <div class="hero-text">
+        <p class="kicker">Chrome extension · open source</p>
+        <h1>Read any song in your <em>own</em> alphabet.</h1>
+        <p class="lede">
+          Spotify Polyglot adds a lyrics panel to the Spotify Web Player. Every line appears in its original
+          script, transliterated so you can sing it, and translated so you know what you're singing —
+          following the song as it plays.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#install">Install it</a>
+          <a class="btn" href="https://github.com/CharlesMontluc/spotify-polyglot-companion" target="_blank" rel="noopener">View the code ↗</a>
+        </div>
+
+        <div class="try">
+          <p class="try-label">Try the panel — pick a language</p>
+          <div class="chips" role="tablist" aria-label="Demo language" data-chips></div>
+          <p class="try-note">Demo lines written for this page. In Spotify, the panel shows the real lyrics of whatever is playing.</p>
+        </div>
+      </div>
+
+      <!-- replica of the extension's overlay -->
+      <div class="panel-stage">
+        <section class="panel" aria-label="Demo of the Spotify Polyglot panel">
+          <header class="panel-head">
+            <div>
+              <p class="panel-kicker">Spotify Polyglot</p>
+              <h2 class="panel-title">Understand the song</h2>
+            </div>
+            <span class="panel-min" aria-hidden="true">Minimize</span>
+          </header>
+
+          <div class="panel-track">
+            <p class="track-title" data-track-title>—</p>
+            <p class="track-meta" data-track-meta>—</p>
+            <p class="track-status" data-track-status>Synced lyrics</p>
+          </div>
+
+          <div class="panel-controls">
+            <label class="ctl">
+              <span>Translate to</span>
+              <select disabled><option>English</option></select>
+            </label>
+            <label class="ctl">
+              <span>Display</span>
+              <select data-mode>
+                <option value="both">Both</option>
+                <option value="translation">Translation</option>
+                <option value="transliteration">Transliteration</option>
+                <option value="original">Original</option>
+              </select>
+            </label>
+          </div>
+
+          <ol class="panel-lines" data-lines aria-live="polite"></ol>
+
+          <footer class="panel-player">
+            <button class="play" type="button" data-play aria-label="Pause">
+              <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+              <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L8.5 4.64A1 1 0 0 0 7 5.5z"/></svg>
+            </button>
+            <span class="time" data-time>0:00</span>
+            <div class="bar"><div class="bar-fill" data-bar></div></div>
+            <span class="time" data-duration>0:00</span>
+          </footer>
+        </section>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section wrap" id="how">
+      <header class="section-head">
+        <p class="kicker">How it works</p>
+        <h2>From the song playing to a line you can read.</h2>
+      </header>
+      <ol class="steps">
+        <li>
+          <span class="step-n">1</span>
+          <h3>Detect the track</h3>
+          <p>A content script reads the title, artist and position from the Spotify Web Player and the browser's Media Session. No Spotify login, so no Premium needed.</p>
+        </li>
+        <li>
+          <span class="step-n">2</span>
+          <h3>Fetch the lyrics</h3>
+          <p>The background worker asks LRCLIB for time-synced lyrics, matching on title, artist and duration. Plain lyrics are spread across the song instead.</p>
+        </li>
+        <li>
+          <span class="step-n">3</span>
+          <h3>Transliterate &amp; translate</h3>
+          <p>Each line gets a translation and a romanization. For Arabic and Hebrew, a built-in rule-based transliterator fills the gaps, vowel marks and doubled letters included.</p>
+        </li>
+        <li>
+          <span class="step-n">4</span>
+          <h3>Follow the music</h3>
+          <p>The panel highlights the current line and scrolls with the song. A ±8&nbsp;s sync offset fixes lyrics that run early or late.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section wrap">
+      <div class="features">
+        <div><h3>Any script</h3><p>Greek, Cyrillic, Japanese, Korean, Arabic, Devanagari, Hebrew — anything LRCLIB has lyrics for.</p></div>
+        <div><h3>Four display modes</h3><p>Both lines, translation only, transliteration only, or just the original.</p></div>
+        <div><h3>Five target languages</h3><p>English, French, Spanish, German and Portuguese.</p></div>
+        <div><h3>Stays out of the way</h3><p>Drag it, resize it, minimize it. Position and settings are remembered.</p></div>
+        <div><h3>Follow or browse</h3><p>Let it follow the song, or scroll freely and jump back to the current line.</p></div>
+        <div><h3>No account</h3><p>Works on the free Spotify Web Player, without any API key or login.</p></div>
+      </div>
+    </section>
+
+    <!-- GALLERY: shown only once screenshots exist in examples/ -->
+    <section class="section wrap gallery-section" id="examples" hidden>
+      <header class="section-head">
+        <p class="kicker">In action</p>
+        <h2>On real songs.</h2>
+      </header>
+      <div class="gallery" data-gallery></div>
+    </section>
+
+    <!-- INSTALL -->
+    <section class="section wrap" id="install">
+      <header class="section-head">
+        <p class="kicker">Install</p>
+        <h2>Two minutes, in developer mode.</h2>
+      </header>
+      <div class="install">
+        <ol class="install-steps">
+          <li><a href="https://github.com/CharlesMontluc/spotify-polyglot-companion/archive/refs/heads/main.zip">Download the code</a> and unzip it.</li>
+          <li>Open <code>chrome://extensions</code> and turn on <strong>Developer mode</strong>.</li>
+          <li>Click <strong>Load unpacked</strong> and choose the <code>extension</code> folder.</li>
+          <li>Open <a href="https://open.spotify.com" target="_blank" rel="noopener">open.spotify.com</a> and play a song.</li>
+        </ol>
+        <aside class="limits">
+          <h3>Good to know</h3>
+          <ul>
+            <li>Not on the Chrome Web Store yet.</li>
+            <li>Lyric coverage depends on LRCLIB.</li>
+            <li>Romanization without vowel marks (Arabic, Hebrew) is approximate.</li>
+            <li>If Spotify changes its page, detection may need an update.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span>Built by <a href="https://charlesmontluc.github.io">Charles Montluc-Giannopoulou</a></span>
+      <span class="muted">Not affiliated with Spotify. Lyrics via LRCLIB.</span>
+    </div>
+  </footer>
+
+  <script src="demo.js" defer></script>
+</body>
+</html>
