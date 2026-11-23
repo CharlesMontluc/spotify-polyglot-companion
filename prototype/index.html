@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotify Polyglot Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Noto+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Spotify Companion</p>
+          <h1>Understand songs while they are playing.</h1>
+          <p class="lede">
+            Connect Spotify, detect the current track, pull lyrics, then show
+            English translation and transliteration when available.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <button id="loginButton" class="primary">Connect Spotify</button>
+          <button id="logoutButton" class="secondary" hidden>Disconnect</button>
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <section class="panel now-playing">
+          <div class="panel-header">
+            <h2>Now Playing</h2>
+            <span id="connectionBadge" class="badge">Disconnected</span>
+          </div>
+          <div id="trackState" class="track-empty">
+            Start playback in Spotify, then connect this app.
+          </div>
+        </section>
+
+        <section class="panel controls">
+          <div class="panel-header">
+            <h2>Language View</h2>
+          </div>
+          <form id="preferencesForm">
+            <label>
+              <span>Target language</span>
+              <select id="targetLanguage">
+                <option value="en" selected>English</option>
+                <option value="fr">French</option>
+                <option value="es">Spanish</option>
+                <option value="de">German</option>
+                <option value="pt">Portuguese</option>
+              </select>
+            </label>
+            <label>
+              <span>Display mode</span>
+              <select id="displayMode">
+                <option value="both" selected>Translation + transliteration</option>
+                <option value="translation">Translation only</option>
+                <option value="transliteration">Transliteration only</option>
+                <option value="original">Original only</option>
+              </select>
+            </label>
+          </form>
+          <p class="hint">
+            Translation and transliteration depend on the lyric source and
+            browser access to public translation endpoints.
+          </p>
+        </section>
+
+        <section class="panel lyrics">
+          <div class="panel-header">
+            <h2>Live Lyrics</h2>
+            <span id="lyricsStatus" class="subtle">Waiting for track</span>
+          </div>
+          <div id="lyricsContainer" class="lyrics-empty">
+            No song data yet.
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="trackTemplate">
+      <article class="track-card">
+        <img class="album-art" alt="" />
+        <div class="track-meta">
+          <p class="track-title"></p>
+          <p class="track-artist"></p>
+          <p class="track-album"></p>
+          <div class="progress-row">
+            <span class="progress-current"></span>
+            <div class="progress-bar">
+              <span class="progress-fill"></span>
+            </div>
+            <span class="progress-total"></span>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <template id="lyricLineTemplate">
+      <article class="lyric-line">
+        <p class="line-original"></p>
+        <p class="line-transliteration"></p>
+        <p class="line-translation"></p>
+      </article>
+    </template>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
