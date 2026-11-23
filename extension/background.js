@@ -199,7 +199,11 @@ function transliterateArabic(input) {
 
   let output = "";
   let lastConsonant = "";
-  const text = String(input || "").replace(new RegExp(tatweel, "g"), "");
+  // Unicode canonical ordering puts a short vowel *before* the shadda (e.g. NFC text),
+  // so move the shadda first: the consonant is then doubled before its vowel ("mma", not "mam").
+  const text = String(input || "")
+    .replace(new RegExp(tatweel, "g"), "")
+    .replace(/([ً-ِْ])ّ/g, "ّ$1");
 
   for (let index = 0; index < text.length; index++) {
     // Handle lam-alif ligature as a pair.
