@@ -1,0 +1,320 @@
+#spotify-polyglot-root {
+  position: fixed;
+  top: 88px;
+  right: 20px;
+  z-index: 999999;
+  width: min(420px, calc(100vw - 24px));
+  height: calc(100vh - 108px);
+  max-height: calc(100vh - 108px);
+  color: #f7f3eb;
+  font-family: "Segoe UI", sans-serif;
+}
+
+#spotify-polyglot-root * {
+  box-sizing: border-box;
+}
+
+.polyglot-panel {
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top left, rgba(231, 127, 58, 0.3), transparent 35%),
+    linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(12, 11, 10, 0.96));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(18px);
+}
+
+.polyglot-header,
+.polyglot-track,
+.polyglot-controls {
+  padding: 16px 18px;
+}
+
+.polyglot-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  user-select: none;
+}
+
+.polyglot-kicker {
+  margin: 0;
+  color: #f0ad74;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+
+.polyglot-title {
+  margin: 4px 0 0;
+  font-size: 22px;
+  line-height: 0.95;
+}
+
+.polyglot-compact {
+  display: none;
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: rgba(247, 243, 235, 0.82);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+  cursor: pointer;
+}
+
+.polyglot-toggle {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: inherit;
+  cursor: pointer;
+}
+
+.polyglot-track {
+  display: grid;
+  gap: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.polyglot-track-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.polyglot-track-meta,
+.polyglot-status,
+.polyglot-empty,
+.polyglot-line-translit {
+  color: rgba(247, 243, 235, 0.72);
+}
+
+.polyglot-track-meta,
+.polyglot-status {
+  margin: 0;
+  font-size: 13px;
+}
+
+.polyglot-controls {
+  display: grid;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.polyglot-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.polyglot-check {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(247, 243, 235, 0.72);
+}
+
+.polyglot-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: #f0ad74;
+}
+
+.polyglot-jump {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: inherit;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.polyglot-jump:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.polyglot-controls-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.polyglot-label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(247, 243, 235, 0.72);
+}
+
+.polyglot-select {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: inherit;
+}
+
+.polyglot-body {
+  overflow: auto;
+  min-height: 0;
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+  overscroll-behavior: contain;
+}
+
+.polyglot-empty {
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.polyglot-line {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.polyglot-line.active {
+  transform: translateX(-8px);
+  background: rgba(255, 244, 230, 0.18);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.polyglot-line p {
+  margin: 0;
+}
+
+.polyglot-line-original {
+  font-size: 15px;
+}
+
+.polyglot-line-translation {
+  margin-top: 7px;
+  color: #ffd1a7;
+}
+
+.polyglot-sync {
+  display: grid;
+  gap: 8px;
+}
+
+.polyglot-sync-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(247, 243, 235, 0.72);
+}
+
+.polyglot-range {
+  width: 100%;
+}
+
+.polyglot-note {
+  margin: 0;
+  font-size: 11px;
+  color: rgba(247, 243, 235, 0.56);
+  line-height: 1.4;
+}
+
+.polyglot-resizer {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: se-resize;
+  display: grid;
+  place-items: center;
+}
+
+.polyglot-resizer::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid rgba(255, 255, 255, 0.45);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.45);
+  transform: translate(1px, 1px);
+}
+
+.polyglot-resizer:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.polyglot-collapsed .polyglot-resizer {
+  display: none;
+}
+
+.polyglot-collapsed {
+  grid-template-rows: auto;
+}
+
+.polyglot-collapsed .polyglot-track,
+.polyglot-collapsed .polyglot-controls,
+.polyglot-collapsed .polyglot-body {
+  display: none;
+}
+
+.polyglot-collapsed .polyglot-kicker,
+.polyglot-collapsed .polyglot-title {
+  display: none;
+}
+
+.polyglot-collapsed .polyglot-compact {
+  display: block;
+}
+
+.polyglot-collapsed .polyglot-header {
+  border-bottom: 0;
+  padding: 12px 14px;
+}
+
+.polyglot-collapsed .polyglot-toggle {
+  padding: 8px 10px;
+}
+
+#spotify-polyglot-root.polyglot-root-collapsed {
+  width: min(340px, calc(100vw - 24px));
+  height: auto;
+  max-height: none;
+}
+
+@media (max-width: 860px) {
+  #spotify-polyglot-root {
+    top: auto;
+    right: 12px;
+    bottom: 100px;
+    width: calc(100vw - 24px);
+    height: 52vh;
+    max-height: 52vh;
+  }
+
+  #spotify-polyglot-root.polyglot-root-collapsed {
+    width: calc(100vw - 24px);
+  }
+}
